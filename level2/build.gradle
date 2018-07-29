@@ -1,0 +1,16 @@
+plugins {
+    id 'java'
+}
+
+group = 'fr.asylvan.lifen'
+version= '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.6'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.6'
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.2'
+}
