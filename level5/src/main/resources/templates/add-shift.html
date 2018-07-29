@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: header-fragment">
+<body>
+<div th:include="layout :: header"></div>
+
+<form  th:method="post" th:action="@{/workers/{id}/shifts(id=${shiftForm.getWorker().getId()})}" th:object="${shiftForm}">
+    TODO
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="reset" class="btn btn-secondary" th:href="@{/shifts}">Cancel</button>
+</form>
+
+</body>
+</html>

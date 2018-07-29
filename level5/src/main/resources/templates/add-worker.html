@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head th:include="layout :: header-fragment"></head>
+<body>
+<div th:include="layout :: header"></div>
+
+<div class="container">
+    <form th:action="@{/workers}" th:method="post" th:object="${workerForm}">
+        <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" th:field="*{firstName}" class="form-control" id="firstName" placeholder="First name">
+        </div>
+        <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" th:field="*{lastName}" class="form-control" id="lastName" placeholder="Last name">
+        </div>
+        <div class="form-group">
+            <label for="status">Status</label>
+            <select th:field="*{status}" class="form-control" id="status">
+                <option th:value="intern">Interne</option>
+                <option th:value="medic">Medic</option>
+                <option th:value="interim">Interim</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="reset" class="btn btn-secondary">Cancel</button>
+    </form>
+</div>
+</body>
+</html>

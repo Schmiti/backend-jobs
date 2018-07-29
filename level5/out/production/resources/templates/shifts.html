@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: header-fragment">
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.js"></script>
+<div th:include="layout :: header"></div>
+
+<div class="container">
+    <h4>Complete schedule</h4>
+    <div id="full-schedule"></div><br/>
+
+    <div th:each="worker : ${shiftsPerWorker}">
+        <div>
+            <span th:text="${worker.getFirstName()} + ' ' + ${worker.getLastName()}"></span>
+        </div>
+        <div th:id="'timeline-' + ${worker.getId()}" class="visible"></div>
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+
+            var displayTimelines = function() {
+                var items = [];
+                var worker = /*[[${worker}]]*/ {id: -1, firstName: "John", lastName: "Doe", shifts: []};
+                var shifts = worker.shifts;
+                shifts.forEach(function (shift) {
+                    items.push({
+                        id: shift.id,
+                        start: moment(shift.startTime).format(),
+                        end: moment(shift.endTime).format()
+                    })
+                });
+
+                var container = document.getElementById("timeline-" + worker.id);
+                var dataset = new vis.DataSet(items);
+                var options = {
+                    editable: {
+                        add: true,
+                        updateTime: true,
+                        remove: true,
+                        overrideItems: false
+                    },
+                    selectable: true,
+                    onAdd: function(item, callback) {
+                        saveShift(worker.id, {
+                            startTime: item.start,
+                            endTime: moment(item.start).add(1, 'h').toDate()
+                        });
+                        callback(item);
+                    },
+                    onRemove: function(item, callback) {
+                        deleteShift(item.id);
+                        callback(item);
+                    },
+                    onMoving: function(item, callback) {
+                        console.log(item);
+                        updateShift(item.id, {
+                            id: item.id,
+                            startTime: item.start,
+                            endTime: item.end
+                        });
+                        callback(item);
+                    }
+                };
+                new vis.Timeline(container, dataset, options);
+            };
+
+            displayTimelines();
+
+            /*]]>*/
+        </script>
+        <br/>
+    </div>
+
+</div>
+<br/>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    var items = [];
+    var shiftsPerWorker = /*[[${shiftsPerWorker}]]*/ [];
+    shiftsPerWorker.forEach(function(worker) {
+        worker.shifts.forEach(function (shift) {
+            items.push({
+                start: moment(shift.startTime).format(),
+                end: moment(shift.endTime).format(),
+                content: worker.firstName + ' ' + worker.lastName + ' (' + worker.status + ')'
+            })
+        });
+    });
+
+    var container = document.getElementById("full-schedule");
+    var dataset = new vis.DataSet(items);
+    var options = {};
+    new vis.Timeline(container, dataset, options);
+
+    /*]]>*/
+</script>
+
+<script>
+    saveShift = function(workerId, shift) {
+        var request = new XMLHttpRequest();
+        request.open("POST", "workers/" + workerId + "/shifts");
+        request.setRequestHeader("Content-Type", "application/json");
+        request.send(JSON.stringify(shift));
+    };
+    deleteShift = function(shiftId) {
+        var request = new XMLHttpRequest();
+        request.open("DELETE", "shifts/" + shiftId);
+        request.send();
+    };
+    updateShift = function(shiftId, shift) {
+        var request = new XMLHttpRequest();
+        request.open("PUT", "shifts/" + shiftId);
+        request.setRequestHeader("Content-Type", "application/json");
+        request.send(JSON.stringify(shift));
+    }
+</script>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+</body>
+</html>

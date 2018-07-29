@@ -1,0 +1,17 @@
+#header {
+    margin-bottom: 20px;
+    border-bottom: solid darkorange;
+}
+
+#header img {
+    height: 60px;
+}
+
+#header h1 {
+    padding-top: 15px;
+}
+
+.worker-row {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}

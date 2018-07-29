@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Planning de garde</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+                                          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+<body>
+
+<div class="jumbotron">
+    <h1 class="display-4">Welcome to the Planning de Garde application</h1>
+    <p class="lead">
+        Ok, first of all, you will notice this app is not really beautiful and not totally finished. It is not yet possible to save
+        shifts correctly into the db, as I was having trouble with the library I used for displaying timelines. As I said to Etienne,
+        my front-end development skills are a little bit outdated.
+    </p>
+    <hr class="my-4">
+    <p>
+        Anyway, few words about this app :
+    </p>
+    <p>
+        It is made with spring boot, as it allowed me to bootstrap a web app very quickly.
+    </p>
+    <p>
+        The data is persisted into a h2 in-memory database, initialized with few samples on startup.
+    </p>
+    <p>
+        On the front-end side, I used bootstrap for a nice rendering.
+        The library I used to display shifts as timelines is <em>vis.js</em>.
+    </p>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-2">
+            <a href="/workers" class="btn btn-primary">Workers</a>
+        </div>
+        <div class="col-2">
+            <a href="/shifts" class="btn btn-primary">Shifts</a>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+</body>
+</html>
